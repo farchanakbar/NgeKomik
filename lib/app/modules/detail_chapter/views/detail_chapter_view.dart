@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:komik_indonesia/app/data/constans/color.dart';
 
 import '../controllers/detail_chapter_controller.dart';
 
@@ -9,8 +8,12 @@ class DetailChapterView extends GetView<DetailChapterController> {
   const DetailChapterView({super.key});
   @override
   Widget build(BuildContext context) {
-    dynamic endpoint = Get.arguments;
+    final endpoint = Get.arguments['endpoint'];
+    final title = Get.arguments['title'];
     return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
       body: FutureBuilder(
         future: controller.getDetailChapter(endpoint),
         builder: (context, snapshot) {
@@ -31,15 +34,6 @@ class DetailChapterView extends GetView<DetailChapterController> {
             child: SafeArea(
               child: Column(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    height: 40,
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: warnaSatu),
-                    child: Center(child: Text('${snapshot.data?.title}')),
-                  ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),

@@ -9,7 +9,7 @@ class Genres {
   final String? message;
   final int? page;
   final int? pagination;
-  final List<Data> datas;
+  final List<GenreList> datas;
 
   factory Genres.fromJson(Map<String, dynamic> json) {
     return Genres(
@@ -18,13 +18,14 @@ class Genres {
       pagination: json["pagination"],
       datas: json["datas"] == null
           ? []
-          : List<Data>.from(json["datas"]!.map((x) => Data.fromJson(x))),
+          : List<GenreList>.from(
+              json["datas"]!.map((x) => GenreList.fromJson(x))),
     );
   }
 }
 
-class Data {
-  Data({
+class GenreList {
+  GenreList({
     required this.title,
     required this.thumbnail,
     required this.newestChapter,
@@ -40,8 +41,8 @@ class Data {
   final String? endpoint;
   final String? type;
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
+  factory GenreList.fromJson(Map<String, dynamic> json) {
+    return GenreList(
       title: json["title"],
       thumbnail: json["thumbnail"],
       newestChapter: json["newest_chapter"],

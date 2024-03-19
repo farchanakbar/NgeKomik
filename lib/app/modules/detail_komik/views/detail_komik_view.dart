@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:komik_indonesia/app/data/constans/color.dart';
@@ -11,8 +10,8 @@ class DetailKomikView extends GetView<DetailKomikController> {
   const DetailKomikView({super.key});
   @override
   Widget build(BuildContext context) {
-    String title = Get.arguments['title'];
-    String endpoint = Get.arguments['endpoint'];
+    final title = Get.arguments['title'];
+    final endpoint = Get.arguments['endpoint'];
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -45,7 +44,7 @@ class DetailKomikView extends GetView<DetailKomikController> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: 300,
+                          height: 250,
                           width: Get.width * 0.5,
                           child: Image.network(
                             '${data?.thumbnail}',
@@ -86,11 +85,11 @@ class DetailKomikView extends GetView<DetailKomikController> {
                           const Jarak(),
                           Text('Rating : ${data?.rating}'),
                           const Jarak(),
-                          Text('Rating : ${data?.released}'),
+                          Text('Rilis : ${data?.released}'),
                           const Jarak(),
-                          Text('Rating : ${data?.updatedAt}'),
+                          Text('Update Terbaru : ${data?.updatedAt}'),
                           const Jarak(),
-                          Text('Rating : ${data?.description}'),
+                          Text('${data?.description}'),
                           const Jarak(),
                           const Text('Genre : '),
                           SingleChildScrollView(
@@ -100,20 +99,29 @@ class DetailKomikView extends GetView<DetailKomikController> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 for (var i in data!.genres.toList())
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 1, color: Colors.white),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(Routes.GENRE_ITEM,
+                                          arguments: {
+                                            'title': i.title as String,
+                                            'endpoint': i.endpoint as String
+                                          });
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
                                           horizontal: 5),
-                                      child: Text(
-                                        i.title.toString(),
-                                        textAlign: TextAlign.center,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 1, color: Colors.white),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        child: Text(
+                                          i.title.toString(),
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -131,15 +139,24 @@ class DetailKomikView extends GetView<DetailKomikController> {
                               ElevatedButton(
                                 onPressed: () {
                                   Get.toNamed(Routes.DETAIL_CHAPTER,
-                                      arguments:
-                                          data.chapterList.last.endpoint);
+                                      arguments: {
+                                        'title': data.chapterList.last.title
+                                            as String,
+                                        'endpoint': data
+                                            .chapterList.last.endpoint as String
+                                      });
                                 },
                                 child: const Text('Chapter Pertama'),
                               ),
                               ElevatedButton(
                                 onPressed: () {
                                   Get.toNamed(Routes.DETAIL_CHAPTER,
-                                      arguments: data.chapterList[0].endpoint);
+                                      arguments: {
+                                        'title':
+                                            data.chapterList[0].title as String,
+                                        'endpoint': data.chapterList[0].endpoint
+                                            as String
+                                      });
                                 },
                                 child: const Text('Chapter Terakhir'),
                               ),
@@ -148,11 +165,17 @@ class DetailKomikView extends GetView<DetailKomikController> {
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const ScrollPhysics(),
-                            itemCount: data.related.length,
+                            itemCount: data.chapterList.length,
                             itemBuilder: (context, index) {
-                              return InkWell(
+                              return GestureDetector(
                                 onTap: () {
-                                  //
+                                  Get.toNamed(Routes.DETAIL_CHAPTER,
+                                      arguments: {
+                                        'title': data.chapterList[index].title
+                                            as String,
+                                        'endpoint': data.chapterList[index]
+                                            .endpoint as String
+                                      });
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -165,7 +188,7 @@ class DetailKomikView extends GetView<DetailKomikController> {
                                   width: Get.width,
                                   child: Center(
                                     child: Text(
-                                        '${data.related[index].newestChapter}'),
+                                        '${data.chapterList[index].title}'),
                                   ),
                                 ),
                               );
