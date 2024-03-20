@@ -32,6 +32,23 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> getAllData() async {
+    await getPopuler();
+    await getUpdate();
+  }
+
+  Future<void> getUpdate() async {
+    Uri url = Uri.parse('https://zeronewatch-api.vercel.app/komiku/updated');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List data = json.decode(response.body)['datas'];
+      updateKomik = data.map((e) => Latest.fromJson(e)).toList();
+    } else {
+      print('Error API');
+    }
+  }
+
   void searchKomik(String query) async {
     try {
       final response = await http.get(Uri.parse(
@@ -50,18 +67,6 @@ class HomeController extends GetxController {
     } catch (e) {
       // Handle exception
       searchResults.value = [];
-    }
-  }
-
-  Future<void> getUpdate() async {
-    Uri url = Uri.parse('https://zeronewatch-api.vercel.app/komiku/updated');
-    var response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      List data = json.decode(response.body)['datas'];
-      updateKomik = data.map((e) => Latest.fromJson(e)).toList();
-    } else {
-      print('Error API');
     }
   }
 

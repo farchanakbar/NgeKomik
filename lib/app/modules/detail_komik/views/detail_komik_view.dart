@@ -171,8 +171,6 @@ class DetailKomikView extends GetView<DetailKomikController> {
                                 onTap: () {
                                   Get.toNamed(Routes.DETAIL_CHAPTER,
                                       arguments: {
-                                        'title': data.chapterList[index].title
-                                            as String,
                                         'endpoint': data.chapterList[index]
                                             .endpoint as String
                                       });

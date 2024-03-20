@@ -1,4 +1,4 @@
-package com.example.komik_indonesia
+package com.komik.manhwa
 
 import io.flutter.embedding.android.FlutterActivity
 

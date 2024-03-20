@@ -9,8 +9,8 @@ void main() {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      title: "Application",
-      initialRoute: AppPages.INITIAL,
+      title: "Komik Manhwa",
+      initialRoute: Routes.HOME,
       getPages: AppPages.routes,
     ),
   );

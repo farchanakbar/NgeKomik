@@ -9,7 +9,8 @@ class DetailChapterController extends GetxController {
     Uri url = Uri.parse(
         'https://zeronewatch-api.vercel.app/komiku/chapter/$endpoint');
     var response = await http.get(url);
-    var data = json.decode(response.body)['data'] as Map<String, dynamic>;
-    return DetailChapter.fromJson(data);
+    var data = json.decode(response.body);
+    var chapter = data['data'] as Map<String, dynamic>;
+    return DetailChapter.fromJson(chapter);
   }
 }
